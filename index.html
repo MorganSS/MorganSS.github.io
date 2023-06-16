@@ -1792,7 +1792,7 @@ function BackToOriginal() {
 
 window.onload = function() {
 	//TODO Test enable -web-platform-features
-	$("MAC").innerHTML= '#enable-experimental-web-platform-features may be needed to read MAC (copy link: <a href=chrome://flags/#enable-experimental-web-platform-features>Chrome<a>, <a href=opera://flags/#enable-experimental-web-platform-features>Opera<a>, <a href=edge://flags/#enable-experimental-web-platform-features>Edge<a>)';
+	//$("MAC").innerHTML= '#enable-experimental-web-platform-features may be needed to read MAC (copy link: <a href=chrome://flags/#enable-experimental-web-platform-features>Chrome<a>, <a href=opera://flags/#enable-experimental-web-platform-features>Opera<a>, <a href=edge://flags/#enable-experimental-web-platform-features>Edge<a>)';
 	addClog("Load index file 'firmware.json'...");
 	ajax_file('firmware.json', getOtaJson);
 	document.querySelector("#file").addEventListener("change", function() {
@@ -2011,7 +2011,7 @@ function hex(number, len) {
   <label for="advmac">Get Advertising MAC</label>
   <br>
   <label for="namePrefix">BLE device name prefix filter(s)</label>
-  <input type="text" id="namePrefix" value="" placeholder=""><br>
+  <input type="text" id="namePrefix" value="" placeholder="LYWSD03,ATC"><br>
   <button type="button" onclick="connect();">Connect</button>
   <button type="button" onclick="disconnect();">Disconnect</button>
   <button type="button" onclick="reConnect();">Reconnect</button><br>
@@ -2019,6 +2019,47 @@ function hex(number, len) {
  <div id="percent">Статус: ожидание подключения</div>
  <div id="tempHumiData">Температура/Влажность: нет данных для отображения</div><hr>
  <div id="MAC"></div>
+ <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+   <script type="text/javascript">
+      google.charts.load('current', {'packages':['gauge']});
+      google.charts.setOnLoadCallback(drawChart);
+	   function drawChart() {
+
+        var data = google.visualization.arrayToDataTable([
+          ['Label', 'Value'],
+          ['T', 0],
+          ['H', 0],
+          
+        ]);
+
+        var options = {
+          width: 430, height: 140,
+          redFrom: 90, redTo: 100,
+          yellowFrom:25, yellowTo: 90,
+          minorTicks: 5
+        };
+
+        var chart = new google.visualization.Gauge(document.getElementById('chart_div'));
+
+        chart.draw(data, options);
+
+        setInterval(function() {
+          data.setValue(0, 1, 40);
+          chart.draw(data, options);
+        }, 13000);
+        setInterval(function() {
+          data.setValue(1, 1, 40 + Math.round(60 * Math.random()));
+          chart.draw(data, options);
+        }, 5000);
+        setInterval(function() {
+          data.setValue(2, 1, 60 + Math.round(20 * Math.random()));
+          chart.draw(data, options);
+        }, 26000);
+      }
+    </script>
+  </head>
+  <body>
+    <div id="chart_div" style="width: 400px; height: 120px;"></div>
  <div>
 	<hr>
 	<div id="ldfile" hidden="true">
@@ -2029,5 +2070,6 @@ function hex(number, len) {
   <hr>
   <button type="button" onclick="clearLog();">Clear Log</button>
   <div id="log"></div>
-
+ 
+ 
 </body></html>
