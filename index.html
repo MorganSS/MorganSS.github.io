@@ -1459,18 +1459,7 @@ function doConnect() {
 		addClog("Found GATT server");
 		gattServer = server;
 		return gattServer.getPrimaryServices();
-	}).then(services => {
-		miEnabled = false;
-		otaEnabled = false;
-		customEnabled = false;
-		devIdEnabled = false;
-		devTest = false;
-		devInfEnabled = false;
-		EnabledQinping = false;
-		
-		
-		
-	
+	}
 
 	getDevVersion(devInfEnabled).then(hwstr => {
 		if (devinfo.hrstr) addLog('Hardware Revision String: ' + devinfo.hrstr);
