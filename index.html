@@ -1425,33 +1425,7 @@ function sendLogin() {
 	}).catch(function(err) {updateFail(err);});
 }
 
-function getDevVersion(devInfEnabled) {
-	var infoservice;
-	devinfo.hrstr = null;
-	devinfo.srstr = null;
-	devinfo.frstr = null;
-	devinfo.flg = 0;
-	if (devInfEnabled == true) { return new Promise((resolve, reject) => {
-		gattServer.getPrimaryService(0x180a).then(service => {
-			addClog("Found Device Information Service");
-			infoservice = service;
-			return getStrVersion(infoservice, 0x2a26).then(value => {
-				devinfo.flg |= 1;
-				devinfo.frstr = value;
-				return getStrVersion(infoservice, 0x2a27).then(value => {
-					devinfo.flg |= 2;
-					devinfo.hrstr = value;
-					return getStrVersion(infoservice, 0x2a28).then(value => {
-						devinfo.flg |= 4;
-						devinfo.srstr = value;
-						return resolve(devinfo.flg);
-					}).catch(error => { addClog(error);});
-				}).catch(error => { addClog(error);});
-			}).catch(error => { addClog(error); return resolve(null);});
-		}).catch(error => { addClog(error); return resolve(null);});
-	}).catch(error => { addClog(error); return resolve(null);});
-	} else	return devinfo.flg;
-}
+
 
 function doConnect() {
  if(bluetoothDevice != null) {
@@ -1480,47 +1454,7 @@ function doConnect() {
 		
 		
 
-	getDevVersion(devInfEnabled).then(hwstr => {
-		if (devinfo.hrstr) addLog('Hardware Revision String: ' + devinfo.hrstr);
-		if (devinfo.srstr) addLog('Software Revision String: ' + devinfo.srstr);
-		if (devinfo.frstr) addLog('Firmware Revision String: ' + devinfo.frstr);
-		if (miEnabled) {
-			addLog("Detected Mi device");
-			setStatus("Detected Mi device");
-			$("custcfg").innerHTML = '<hr>When doing an activation here the device is needed to be activated in the Mi app again when wanted to use there.<br><button type="button" onclick="sendRegister();">Do Activation</button> <button type="button" onclick="keyMiLogin();">Login</button><br>Device known id:<br><input size="40" type="text" id="known_id" value=""><br>Mi Token:<br><input size="40" type="text" id="mi_token" value=""><br>Mi Bind Key:<br><input size="40" type="text" id="mi_bind_key" value=""><br><br>';
-			if (bluetoothDevice.name.substr(0,10) == "MJWSD05MMC") fwmaxsize = 0x34000;
-			miAction();
-		} else if (customEnabled) {
-			let s = '<button type="button" onclick="sendCustomSetting(&quot;55&quot;);">Get Config</button><br>Send commands to custom firmware:<br><input type="text" id="cmdTXT" value=""><button type="button" onclick="sendCustomSetting($(&quot;cmdTXT&quot;).value,settingsCharacteristics);">Send</button><br>';
-			if (devTest) {
-				addLog("Detected Test device");
-				setStatus("Detected Test device");
-				getTestCharacteristic();
-				s += '<a href="https://pvvx.github.io/ATC_MiThermometer/TelinkOTA.html">TelinkOTA</a><br>';
-			} else {
-				addLog("Detected custom Firmware");
-				setStatus("Detected custom Firmware");
-				customAction();
-			}
-			$("custcfg").innerHTML = s;
-		} else if(EnabledQinping && bluetoothDevice.name.substr(0,15) == "Qingping Motion")
-			CGPR1_Action();
-		else if(EnabledQinping && bluetoothDevice.name.substr(0,21) == "Qingping Temp RH Lite")
-			CGDK2_Action();
-		else if(EnabledQinping && bluetoothDevice.name.substr(0,20) == "Qingping Temp & RH M")
-			CGG1_Action("2020-2021");
-		else if(EnabledQinping && bluetoothDevice.name.substr(0,18) == "Qingping Temp RH M")
-			CGG1_Action("2022");
-		else {
-			setStatus("Connected.")
-			miEnabled = true;
-			miAuthorization();	//	miConnected
-			$("ldfile").hidden = false;
-			$("custcfg").innerHTML = '<hr>When doing an activation here the device is needed to be activated in the Mi app again when wanted to use there.<br><button type="button" onclick="sendRegister();">Do Activation</button> <button type="button" onclick="skipActivation();">Skip Activation</button>	 <button type="button" onclick="keyMiLogin();">Login</button><br>Device known id:<br><input size="40" type="text" id="known_id" value=""><br>Mi Token:<br><input size="40" type="text" id="mi_token" value=""><br>Mi Bind Key:<br><input size="40" type="text" id="mi_bind_key" value=""><br><br>';
-		}}).catch(handleError);
-	}).catch(handleError);
- }
-}
+	
 
 function getStrVersion(infoservice, suuid) {
  return new Promise((resolve, reject) => {
