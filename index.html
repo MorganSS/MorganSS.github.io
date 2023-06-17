@@ -1478,14 +1478,8 @@ function doConnect() {
 			else if (services[i].uuid == "0000180a-0000-1000-8000-00805f9b34fb") devInfEnabled = true; // Device Information Service
 		}
 	
-	}).then(service => {
-		addClog("Found Telink OTA service");
-		Theservice = service;
-		return Theservice.getCharacteristic('00010203-0405-0607-0809-0a0b0c0d2b12');
 	}).then(characteristic => {
-		addClog("Found Telink OTA write characteristic");
-		writeCharacteristic = characteristic;
-
+		
 	getDevVersion(devInfEnabled).then(hwstr => {
 		if (devinfo.hrstr) addLog('Hardware Revision String: ' + devinfo.hrstr);
 		if (devinfo.srstr) addLog('Software Revision String: ' + devinfo.srstr);
