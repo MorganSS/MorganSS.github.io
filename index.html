@@ -1477,13 +1477,9 @@ function doConnect() {
 			else if (services[i].uuid == "0000ffe0-0000-1000-8000-00805f9b34fb") devTest = true;
 			else if (services[i].uuid == "0000180a-0000-1000-8000-00805f9b34fb") devInfEnabled = true; // Device Information Service
 		}
-		if(otaEnabled)
-			return gattServer.getPrimaryService('00010203-0405-0607-0809-0a0b0c0d1912');
-		else {
-			addAlog("Not found Telink OTA service!");
-		}
+		
 		connectTrys = 1000;
-		return resolve(null);
+		
 	}).then(service => {
 		addClog("Found Telink OTA service");
 		Theservice = service;
