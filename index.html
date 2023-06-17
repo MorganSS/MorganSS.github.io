@@ -1459,18 +1459,7 @@ function doConnect() {
 		addClog("Found GATT server");
 		gattServer = server;
 		return gattServer.getPrimaryServices();
-	}).then(services => {
-		
-		
-	getDevVersion(devInfEnabled).then(hwstr => {
-	 {
-			setStatus("Connected.")
-			miEnabled = true;
-			miAuthorization();	//	miConnected
-			$("ldfile").hidden = false;
-			$("custcfg").innerHTML = '<hr>When doing an activation here the device is needed to be activated in the Mi app again when wanted to use there.<br><button type="button" onclick="sendRegister();">Do Activation</button> <button type="button" onclick="skipActivation();">Skip Activation</button>	 <button type="button" onclick="keyMiLogin();">Login</button><br>Device known id:<br><input size="40" type="text" id="known_id" value=""><br>Mi Token:<br><input size="40" type="text" id="mi_token" value=""><br>Mi Bind Key:<br><input size="40" type="text" id="mi_bind_key" value=""><br><br>';
-		}}).catch(handleError);
-	}).catch(handleError);
+	})
  }
 }
 
