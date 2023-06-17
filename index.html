@@ -1469,7 +1469,7 @@ function doConnect() {
 		EnabledQinping = false;
 		for (var i = 0; i < services.length; i++) {
 			addClog("Services: " + services[i].uuid);
-			if (services[i].uuid == "00010203-0405-0607-0809-0a0b0c0d1912") otaEnabled = true;
+			if (services[i].uuid == "00010203-0405-0607-0809-0a0b0c0d1912") otaEnabled = false;
 			else if (services[i].uuid == "00001f10-0000-1000-8000-00805f9b34fb") customEnabled = true;
 			else if (services[i].uuid == "22210000-554a-4546-5542-46534450464d") EnabledQinping = true;
 			else if (services[i].uuid == "ebe0ccb0-7a0a-4b0c-8a1a-6ff2997da3a6") miEnabled = true;
